@@ -1,3 +1,4 @@
+
 var finances = [
   ['Jan-2010', 867884],
   ['Feb-2010', 984655],
@@ -86,3 +87,66 @@ var finances = [
   ['Jan-2017', 138230],
   ['Feb-2017', 671099],
 ];
+
+
+// Calculate following:
+
+// The net total amount of Profit/Losses over the entire period.
+
+// The average of the changes in Profit/Losses over the entire period.
+
+// Track what the total change in profits is from month to month and then find the average.
+
+// (Total/(Number of months - 1))
+
+// The greatest increase in profits (date and amount) over the entire period.
+
+// The greatest decrease in losses (date and amount) over the entire period.
+
+
+var totalMonths = 0;
+var netTotal = 0;
+var maxProfitIncrease = { amount: 0, date: "" };
+var maxProfitDecrease = { amount: 0, date: "" };
+
+for (var i = 0; i < finances.length; i++) {
+  totalMonths++;
+  var currentMonth = finances[i];
+  var currentMonthProfit = currentMonth[1];
+  netTotal += currentMonthProfit;
+
+  if (i > 0) {
+    var previousMonth = finances[i - 1];
+    var change = currentMonthProfit - previousMonth[1];
+
+    if (change > maxProfitIncrease.amount) {
+      maxProfitIncrease.amount = change;
+      maxProfitIncrease.date = currentMonth[0];
+    }
+
+    if (change < maxProfitDecrease.amount) {
+      maxProfitDecrease.amount = change;
+      maxProfitDecrease.date = currentMonth[0];
+    }
+  }
+}
+
+var avgChange = Math.round(((netTotal - finances[0][1]) / (totalMonths - 1)) * 100) / 100;
+
+console.log("Financial Analysis");
+console.log("---------------------------");
+console.log("Total Months: " + totalMonths);
+console.log("Total: $" + netTotal);
+console.log("Average Change: $" + avgChange);
+console.log("Greatest Increase in Profits/Losses: " + maxProfitIncrease.date + " ($" + maxProfitIncrease.amount + ")");
+console.log("Greatest Decrease in Profits/Losses: " + maxProfitDecrease.date + " ($" + maxProfitDecrease.amount + ")");
+
+
+// Financial Analysis
+// ---------------------------
+// Total Months: 86
+// Total: $38382578
+// Average Change: $441349.34
+// Greatest Increase in Profits/Losses: Feb-2012 ($1926159)
+// Greatest Decrease in Profits/Losses: Sep-2013 ($-2196167)
+
