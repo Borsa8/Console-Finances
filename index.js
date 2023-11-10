@@ -103,11 +103,14 @@ var finances = [
 
 // The greatest decrease in losses (date and amount) over the entire period.
 
+// Variables
 
 var totalMonths = 0;
 var netTotal = 0;
 var maxProfitIncrease = { amount: 0, date: "" };
 var maxProfitDecrease = { amount: 0, date: "" };
+
+// Loop finances
 
 for (var i = 0; i < finances.length; i++) {
   totalMonths++;
@@ -115,23 +118,33 @@ for (var i = 0; i < finances.length; i++) {
   var currentMonthProfit = currentMonth[1];
   netTotal += currentMonthProfit;
 
-  if (i > 0) {
-    var previousMonth = finances[i - 1];
-    var change = currentMonthProfit - previousMonth[1];
+// Verify current month in finances
 
-    if (change > maxProfitIncrease.amount) {
-      maxProfitIncrease.amount = change;
-      maxProfitIncrease.date = currentMonth[0];
-    }
+if (i > 0) {
+  var previousMonth = finances[i - 1];
+  var change = currentMonthProfit - previousMonth[1];
 
-    if (change < maxProfitDecrease.amount) {
-      maxProfitDecrease.amount = change;
-      maxProfitDecrease.date = currentMonth[0];
-    }
+// Greatest increase in profits
+
+if (change > maxProfitIncrease.amount) {
+  maxProfitIncrease.amount = change;
+  maxProfitIncrease.date = currentMonth[0];
+  }
+
+// Greatest decrease in losses
+
+if (change < maxProfitDecrease.amount) {
+  maxProfitDecrease.amount = change;
+  maxProfitDecrease.date = currentMonth[0];
+   }
   }
 }
 
+// Average change calculation (rounds the value)
+
 var avgChange = Math.round(((netTotal - finances[0][1]) / (totalMonths - 1)) * 100) / 100;
+
+// Console output
 
 console.log("Financial Analysis");
 console.log("---------------------------");
